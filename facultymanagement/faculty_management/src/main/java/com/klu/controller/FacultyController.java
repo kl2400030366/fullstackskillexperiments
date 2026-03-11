@@ -1,0 +1,71 @@
+package com.klu.controller;
+
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.klu.model.Faculty;
+import com.klu.model.FacultyManager;
+
+@RestController
+@RequestMapping("/faculty")
+@CrossOrigin
+public class FacultyController {
+	
+	@Autowired
+	FacultyManager FM;
+	
+	
+	@PostMapping("/save")
+	public String saveData(@RequestBody Faculty F)
+	{
+		try {
+			return FM.insertData(F);
+		} 
+		catch (Exception e) {
+			return e.getMessage();
+		}	
+		
+	}
+	
+	@GetMapping("/read")
+	public List<Faculty> display() throws Exception
+	{
+		return FM.readData();
+	}
+	
+	@PutMapping("/update")
+	public String update(@RequestBody Faculty F)
+	{
+		try {
+			return FM.updateData(F);
+		} 
+		catch (Exception e) {
+			return e.getMessage();
+		}
+	}
+	
+	@DeleteMapping("delete/{id}")
+	public String del(@PathVariable("id") Long id)
+	{
+		try
+		{
+			return FM.deleteData(id);
+		}catch(Exception e)
+		{
+			return e.getMessage();
+		}
+	}
+	
+
+}
